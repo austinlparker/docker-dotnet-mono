@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.1.402-sdk AS builder
+FROM microsoft/dotnet:2.1-sdk AS builder
 
 # Install mono
 ENV MONO_VERSION 5.4.1.6
@@ -14,4 +14,12 @@ RUN apt-get update \
   && apt-get install -y binutils curl mono-devel ca-certificates-mono fsharp mono-vbnc nuget referenceassemblies-pcl \
   && rm -rf /var/lib/apt/lists/* /tmp/*
 
+RUN apt-get update \
+  && apt-get install -y git openssh-client tar gzip \
+  && rm -rf /var/lib/apt/lists/* /tmp/*
+
 WORKDIR /sln
+
+LABEL com.circleci.preserve-entrypoint=true
+
+ENTRYPOINT ["sleep", "infinity"]
